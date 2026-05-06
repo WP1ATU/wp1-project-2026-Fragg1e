@@ -1,0 +1,88 @@
+<header class="topbar">
+  <div>
+    <p class="eyebrow">Snooker analytics</p>
+    <h1>Live Stats & Match Predictor</h1>
+  </div>
+
+  <nav>
+    <a href="#live">Live</a>
+    <a href="#players">Players</a>
+    <a href="#rankings">Rankings</a>
+    <a href="#predictor">Predictor</a>
+  </nav>
+</header>
+
+<main>
+  <section id="live" class="section">
+    <div class="section-heading">
+      <h2>Live Matches</h2>
+      <span class="status">Sample data</span>
+    </div>
+
+    <div class="grid">
+      @for (match of liveMatches; track match.playerOne) {
+        <article class="card match-card">
+          <div>
+            <h3>{{ match.playerOne }}</h3>
+            <p>vs {{ match.playerTwo }}</p>
+          </div>
+          <strong>{{ match.score }}</strong>
+          <div class="stats-row">
+            <span>Frame {{ match.frame }}</span>
+            <span>Break {{ match.break }}</span>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section id="players" class="section">
+    <h2>Player Profiles</h2>
+
+    <div class="grid">
+      @for (player of players; track player.name) {
+        <article class="card">
+          <p class="rank">World #{{ player.rank }}</p>
+          <h3>{{ player.name }}</h3>
+          <div class="stats-row">
+            <span>Win rate {{ player.winRate }}</span>
+            <span>Avg break {{ player.averageBreak }}</span>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section id="rankings" class="section">
+    <h2>Rankings</h2>
+
+    <div class="table">
+      @for (player of players; track player.name) {
+        <div class="table-row">
+          <span>#{{ player.rank }}</span>
+          <strong>{{ player.name }}</strong>
+          <span>{{ player.winRate }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section id="predictor" class="section">
+    <h2>Match Predictor</h2>
+
+    <article class="card predictor">
+      <div class="prediction-row">
+        <span>{{ prediction.playerOne }}</span>
+        <strong>{{ prediction.playerOneChance }}%</strong>
+      </div>
+      <div class="bar">
+        <div [style.width.%]="prediction.playerOneChance"></div>
+      </div>
+      <div class="prediction-row">
+        <span>{{ prediction.playerTwo }}</span>
+        <strong>{{ prediction.playerTwoChance }}%</strong>
+      </div>
+      <p>{{ prediction.note }}</p>
+    </article>
+  </section>
+</main>
