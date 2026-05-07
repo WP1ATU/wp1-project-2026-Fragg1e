@@ -1,146 +1,18 @@
 :host {
   display: block;
   min-height: 100vh;
-  color: #15201b;
-  background: #f5f7f4;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 28px 40px;
-  border-bottom: 1px solid #dce4dd;
-  background: #ffffff;
-}
-
-.eyebrow,
-p {
-  margin: 0;
-  color: #5d6c63;
-}
-
-.eyebrow {
-  margin-bottom: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
+.starter {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+  gap: 12px;
+  text-align: center;
 }
 
 h1,
-h2,
-h3 {
+p {
   margin: 0;
-}
-
-h1 {
-  font-size: 32px;
-}
-
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-nav a {
-  color: #184f34;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-main {
-  display: grid;
-  gap: 28px;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 32px 20px 48px;
-}
-
-.section {
-  display: grid;
-  gap: 16px;
-}
-
-.section-heading,
-.prediction-row,
-.stats-row,
-.table-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.status,
-.rank {
-  color: #1f6f48;
-  font-weight: 700;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-}
-
-.card,
-.table {
-  border: 1px solid #dce4dd;
-  border-radius: 8px;
-  background: #ffffff;
-}
-
-.card {
-  display: grid;
-  gap: 18px;
-  padding: 20px;
-}
-
-.match-card > strong {
-  font-size: 28px;
-}
-
-.stats-row,
-.table-row {
-  color: #5d6c63;
-}
-
-.table {
-  overflow: hidden;
-}
-
-.table-row {
-  padding: 14px 18px;
-  border-bottom: 1px solid #e6ece7;
-}
-
-.table-row:last-child {
-  border-bottom: 0;
-}
-
-.predictor {
-  max-width: 540px;
-}
-
-.bar {
-  height: 12px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #e4ebe6;
-}
-
-.bar div {
-  height: 100%;
-  background: #1f6f48;
-}
-
-@media (max-width: 720px) {
-  .topbar {
-    align-items: flex-start;
-    flex-direction: column;
-    padding: 24px 20px;
-  }
 }
