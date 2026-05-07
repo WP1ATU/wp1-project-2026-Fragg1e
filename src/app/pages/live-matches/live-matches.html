@@ -1,1 +1,39 @@
-<p>live-matches works!</p>
+<h2>Live Matches</h2>
+
+<p>This page will show live snooker matches from the API.</p>
+
+<button type="button" (click)="loadMatches()">
+  Refresh Matches
+</button>
+
+@if (loading) {
+  <p>Loading matches...</p>
+}
+
+@if (error) {
+  <p>{{ error }}</p>
+}
+
+@if (matches.length > 0) {
+  <table>
+    <thead>
+      <tr>
+        <th>Player 1</th>
+        <th>Player 2</th>
+        <th>Score</th>
+        <th>Round</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (match of matches; track match.ID) {
+        <tr>
+          <td>{{ match.Player1Name }}</td>
+          <td>{{ match.Player2Name }}</td>
+          <td>{{ match.Score1 }} - {{ match.Score2 }}</td>
+          <td>{{ match.Round }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

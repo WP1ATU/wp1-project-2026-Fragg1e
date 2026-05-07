@@ -1,1 +1,25 @@
-<p>saved-predictions works!</p>
+<h2>Saved Predictions</h2>
+
+<p>This page will show predictions saved in MongoDB.</p>
+
+<button type="button" (click)="loadPredictions()">
+  Load Saved Predictions
+</button>
+
+@if (error) {
+  <p>{{ error }}</p>
+}
+
+@if (predictions.length > 0) {
+  <ul>
+    @for (prediction of predictions; track prediction._id) {
+      <li>
+        {{ prediction.playerOneName }}
+        {{ prediction.playerOneChance }}%
+        vs
+        {{ prediction.playerTwoName }}
+        {{ prediction.playerTwoChance }}%
+      </li>
+    }
+  </ul>
+}

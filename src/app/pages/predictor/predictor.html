@@ -1,1 +1,75 @@
-<p>predictor works!</p>
+<h2>Match Predictor</h2>
+
+<p>Select two players and create a simple ranking-based prediction.</p>
+
+<button type="button" (click)="loadRankings()">
+  Load Players
+</button>
+
+@if (error) {
+  <p>{{ error }}</p>
+}
+
+@if (message) {
+  <p>{{ message }}</p>
+}
+
+@if (rankings.length > 0) {
+  <div>
+    <label for="playerOne">Player One</label>
+    <select id="playerOne" [(ngModel)]="selectedPlayerOneId">
+      <option value="">Choose player</option>
+
+      @for (player of rankings; track player.PlayerID) {
+        <option [value]="player.PlayerID">
+          {{ player.Position }} - {{ player.PlayerName }}
+        </option>
+      }
+    </select>
+  </div>
+
+  <div>
+    <label for="playerTwo">Player Two</label>
+    <select id="playerTwo" [(ngModel)]="selectedPlayerTwoId">
+      <option value="">Choose player</option>
+
+      @for (player of rankings; track player.PlayerID) {
+        <option [value]="player.PlayerID">
+          {{ player.Position }} - {{ player.PlayerName }}
+        </option>
+      }
+    </select>
+  </div>
+
+  <button type="button" (click)="createPrediction()">
+    Predict Match
+  </button>
+}
+
+@if (prediction) {
+  <section>
+    <h3>Prediction Result</h3>
+
+    <p>
+      {{ prediction.playerOneName }}:
+      {{ prediction.playerOneChance }}%
+    </p>
+
+    <p>
+      {{ prediction.playerTwoName }}:
+      {{ prediction.playerTwoChance }}%
+    </p>
+
+    <h4>Reason</h4>
+
+    <ul>
+      @for (factor of prediction.factors; track factor) {
+        <li>{{ factor }}</li>
+      }
+    </ul>
+
+    <button type="button" (click)="savePrediction()">
+      Save Prediction
+    </button>
+  </section>
+}

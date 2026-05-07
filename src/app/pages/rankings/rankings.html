@@ -1,1 +1,37 @@
-<p>rankings works!</p>
+<h2>Rankings</h2>
+
+<p>This page will show the current snooker rankings from the API.</p>
+
+<button type="button" (click)="loadRankings()">
+  Load Rankings
+</button>
+
+@if (loading) {
+  <p>Loading rankings...</p>
+}
+
+@if (error) {
+  <p>{{ error }}</p>
+}
+
+@if (rankings.length > 0) {
+  <table>
+    <thead>
+      <tr>
+        <th>Position</th>
+        <th>Player</th>
+        <th>Prize Money</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (ranking of rankings; track ranking.PlayerID) {
+        <tr>
+          <td>{{ ranking.Position }}</td>
+          <td>{{ ranking.PlayerName }}</td>
+          <td>{{ ranking.Money }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
