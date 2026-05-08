@@ -1,7 +1,20 @@
 <h2>Player Profile</h2>
 
-<p>Player ID from route: {{ playerId }}</p>
+@if (error) {
+  <p>{{ error }}</p>
+}
 
-<p>
-  This page will later show detailed statistics for the selected player.
-</p>
+@if (player) {
+  <section>
+    <h3>{{ player.FirstName }} {{ player.LastName }}</h3>
+
+    @if (player.Photo) {
+      <img [src]="player.Photo" alt="{{ player.FirstName }} {{ player.LastName }}" width="160">
+    }
+
+    <p>Nationality: {{ player.Nationality }}</p>
+    <p>Date of birth: {{ player.Born }}</p>
+    <p>Ranking titles: {{ player.NumRankingTitles }}</p>
+    <p>Maximum breaks: {{ player.NumMaximums }}</p>
+  </section>
+}

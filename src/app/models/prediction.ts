@@ -1,7 +1,9 @@
-export interface Prediction {
-  playerOneName: string;
-  playerTwoName: string;
-  playerOneChance: number;
-  playerTwoChance: number;
-  factors: string[];
+export interface Ranking {
+  ID: number;
+  Position: number;
+  PlayerID: number;
+  Season: number;
+  Sum: number;
+  Type: string;
+  PlayerName?: string;
 }
