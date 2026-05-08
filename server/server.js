@@ -138,6 +138,23 @@ app.get('/api/predictions', async (req, res) => {
   }
 });
 
+app.get('/api/upcoming-matches', async (req, res) => {
+  try {
+    const data = await cachedCall(
+      'upcoming-matches',
+      60 * 1000,
+      { t: 14, tr: 'main' }
+    );
+
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({
+      message: 'Could not load upcoming matches'
+    });
+  }
+});
+
+
 
 
 app.listen(PORT, () => {

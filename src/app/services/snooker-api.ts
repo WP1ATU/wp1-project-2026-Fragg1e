@@ -22,21 +22,21 @@ export class SnookerApi {
   }
 
   getPlayerById(id: number): Observable<Player | undefined> {
-  return new Observable((observer) => {
-    this.getPlayers().subscribe({
-      next: (players) => {
-        const player = players.find((item) => item.ID === id);
-        observer.next(player);
-        observer.complete();
-      },
-      error: (error) => {
-        observer.error(error);
-      }
+    return new Observable((observer) => {
+      this.getPlayers().subscribe({
+        next: (players) => {
+          const player = players.find((item) => item.ID === id);
+          observer.next(player);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
     });
-  });
-}
+  }
 
-  getRankings(): Observable<Ranking[]> {
+getRankings(): Observable<Ranking[]> {
   return forkJoin({
     rankings: this.http.get<Ranking[]>(`${this.apiUrl}/rankings`),
     players: this.getPlayers()
@@ -52,5 +52,9 @@ export class SnookerApi {
       });
     })
   );
-}
+  }
+
+  getUpcomingMatches(): Observable<Match[]> {
+    return this.http.get<Match[]>(`${this.apiUrl}/upcoming-matches`);
+  }
 }

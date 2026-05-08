@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { Match } from '../../models/match';
+import { CommonModule } from '@angular/common';
 import { SnookerApi } from '../../services/snooker-api';
+import { Match } from '../../models/match';
 
 @Component({
   selector: 'app-live-matches',
+  imports: [CommonModule],
   templateUrl: './live-matches.html',
   styleUrl: './live-matches.css'
 })
@@ -14,7 +16,7 @@ export class LiveMatches {
 
   constructor(private snookerApi: SnookerApi) {}
 
-  loadMatches() {
+  loadLiveMatches() {
     this.loading = true;
     this.error = '';
 
@@ -24,7 +26,23 @@ export class LiveMatches {
         this.loading = false;
       },
       error: () => {
-        this.error = 'Could not load live matches. Please wait a minute and try again.';
+        this.error = 'Could not load live matches.';
+        this.loading = false;
+      }
+    });
+  }
+
+  loadUpcomingMatches() {
+    this.loading = true;
+    this.error = '';
+
+    this.snookerApi.getUpcomingMatches().subscribe({
+      next: (data) => {
+        this.matches = data;
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Could not load upcoming matches.';
         this.loading = false;
       }
     });
