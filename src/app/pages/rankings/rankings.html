@@ -1,10 +1,9 @@
 <h2>Rankings</h2>
 
-<p>This page will show the current snooker rankings from the API.</p>
+<p>This page shows the current snooker money rankings from the API.</p>
 
-<button type="button" (click)="loadRankings()">
+<button class="btn btn-primary" type="button" (click)="loadRankings()">
   Load Rankings
-</button>
 
 @if (loading) {
   <p>Loading rankings...</p>
@@ -15,21 +14,21 @@
 }
 
 @if (rankings.length > 0) {
-  <table>
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>Position</th>
-        <th>Player</th>
+        <th>Player ID</th>
         <th>Prize Money</th>
       </tr>
     </thead>
 
     <tbody>
-      @for (ranking of rankings; track ranking.PlayerID) {
+      @for (ranking of rankings; track ranking.ID) {
         <tr>
           <td>{{ ranking.Position }}</td>
-          <td>{{ ranking.PlayerName }}</td>
-          <td>{{ ranking.Money }}</td>
+          <td>{{ ranking.PlayerID }}</td>
+          <td>{{ ranking.Sum }}</td>
         </tr>
       }
     </tbody>

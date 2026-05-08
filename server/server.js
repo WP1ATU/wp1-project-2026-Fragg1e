@@ -77,6 +77,23 @@ app.get('/api/rankings', async (req, res) => {
   }
 });
 
+app.get('/api/players', async (req, res) => {
+  try {
+    const data = await cachedCall(
+      'players',
+      24 * 60 * 60 * 1000,
+      { t: 10, st: 'p', s: 2025 }
+    );
+
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({
+      message: 'Could not load players'
+    });
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

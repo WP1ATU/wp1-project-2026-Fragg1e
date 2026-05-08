@@ -2,7 +2,7 @@
 
 <p>Select two players and create a simple ranking-based prediction.</p>
 
-<button type="button" (click)="loadRankings()">
+<button class="btn btn-primary" type="button" (click)="loadRankings()">
   Load Players
 </button>
 
@@ -22,7 +22,7 @@
 
       @for (player of rankings; track player.PlayerID) {
         <option [value]="player.PlayerID">
-          {{ player.Position }} - {{ player.PlayerName }}
+         Rank {{ player.Position }} - Player {{ player.PlayerID }}
         </option>
       }
     </select>
@@ -35,7 +35,7 @@
 
       @for (player of rankings; track player.PlayerID) {
         <option [value]="player.PlayerID">
-          {{ player.Position }} - {{ player.PlayerName }}
+          Rank {{ player.Position }} - Player {{ player.PlayerID }}
         </option>
       }
     </select>

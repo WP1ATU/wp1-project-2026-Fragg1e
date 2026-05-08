@@ -21,6 +21,21 @@ export class SnookerApi {
     return this.http.get<Player[]>(`${this.apiUrl}/players`);
   }
 
+  getPlayerById(id: number): Observable<Player | undefined> {
+  return new Observable((observer) => {
+    this.getPlayers().subscribe({
+      next: (players) => {
+        const player = players.find((item) => item.ID === id);
+        observer.next(player);
+        observer.complete();
+      },
+      error: (error) => {
+        observer.error(error);
+      }
+    });
+  });
+}
+
   getRankings(): Observable<Ranking[]> {
     return this.http.get<Ranking[]>(`${this.apiUrl}/rankings`);
   }

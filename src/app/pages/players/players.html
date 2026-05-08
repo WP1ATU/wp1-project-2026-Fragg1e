@@ -1,8 +1,8 @@
 <h2>Players</h2>
 
-<p>This page will list snooker players from the API.</p>
+<p>This page lists snooker players from the API.</p>
 
-<button type="button" (click)="loadPlayers()">
+<button class="btn btn-primary" type="button" (click)="loadPlayers()">
   Load Players
 </button>
 
@@ -15,17 +15,29 @@
 }
 
 @if (players.length > 0) {
-  <ul>
-    @for (player of players; track player.ID) {
-      <li>
-        <a [routerLink]="['/players', player.ID]">
-          {{ player.FirstName }} {{ player.LastName }}
-        </a>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Nationality</th>
+        <th>Ranking Titles</th>
+        <th>Maximum Breaks</th>
+      </tr>
+    </thead>
 
-        @if (player.Nationality) {
-          <span> - {{ player.Nationality }}</span>
-        }
-      </li>
-    }
-  </ul>
+    <tbody>
+      @for (player of players; track player.ID) {
+        <tr>
+          <td>
+            <a [routerLink]="['/players', player.ID]">
+              {{ player.FirstName }} {{ player.LastName }}
+            </a>
+          </td>
+          <td>{{ player.Nationality }}</td>
+          <td>{{ player.NumRankingTitles }}</td>
+          <td>{{ player.NumMaximums }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
 }
