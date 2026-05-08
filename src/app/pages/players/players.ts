@@ -14,6 +14,8 @@ import { SnookerApi } from '../../services/snooker-api';
 export class Players implements OnInit {
   players: Player[] = [];
   searchText = '';
+  sortColumn = "";
+  sortDirection = "desc";
   loading = false;
   error = '';
 
@@ -40,9 +42,39 @@ export class Players implements OnInit {
   }
 
   get filteredPlayers() {
-    return this.players.filter((player) => {
+    const filtered = this.players.filter((player) => {
       const fullName = `${player.FirstName} ${player.LastName}`.toLowerCase();
       return fullName.includes(this.searchText.toLowerCase());
     });
+
+    if (this.sortColumn === 'titles') {
+      return filtered.sort((a, b) => {
+        const first = a.NumRankingTitles || 0;
+        const second = b.NumRankingTitles || 0;
+
+        return this.sortDirection === 'desc' ? second - first : first - second;
+      });
+    }
+
+    if (this.sortColumn === 'maximums') {
+      return filtered.sort((a, b) => {
+        const first = a.NumMaximums || 0;
+        const second = b.NumMaximums || 0;
+
+        return this.sortDirection === 'desc' ? second - first : first - second;
+      });
+    }
+
+    return filtered;
   }
+
+  sortPlayers(column: string) {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'desc' ? 'asc' : 'desc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'desc';
+    }
+  }
+
 }

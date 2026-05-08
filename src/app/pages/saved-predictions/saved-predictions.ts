@@ -36,8 +36,14 @@ export class SavedPredictions implements OnInit {
     });
   }
 
-  deletePrediction(id: string | undefined) {
+    deletePrediction(id: string | undefined) {
     if (!id) {
+      return;
+    }
+
+    const confirmed = confirm('Are you sure you want to delete this prediction?');
+
+    if (!confirmed) {
       return;
     }
 
@@ -50,4 +56,5 @@ export class SavedPredictions implements OnInit {
       }
     });
   }
+
 }

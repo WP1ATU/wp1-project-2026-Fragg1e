@@ -15,10 +15,18 @@
     <tr>
       <th>Name</th>
       <th>Nationality</th>
-      <th>Ranking Titles</th>
-      <th>Maximum Breaks</th>
-      <th>Profile</th>
-    </tr>
+      <th>
+      <button class="btn btn-link p-0" (click)="sortPlayers('titles')">
+        Ranking Titles
+      </button>
+    </th>
+    <th>
+      <button class="btn btn-link p-0" (click)="sortPlayers('maximums')">
+        Maximum Breaks
+      </button>
+    </th>
+          <th>Profile</th>
+        </tr>
   </thead>
 
   <tbody>
