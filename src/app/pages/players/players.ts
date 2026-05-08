@@ -1,20 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Player } from '../../models/player';
 import { SnookerApi } from '../../services/snooker-api';
 
 @Component({
   selector: 'app-players',
-  imports: [RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './players.html',
   styleUrl: './players.css'
 })
-export class Players {
+export class Players implements OnInit {
   players: Player[] = [];
+  searchText = '';
   loading = false;
   error = '';
 
   constructor(private snookerApi: SnookerApi) {}
+
+  ngOnInit(){
+    this.loadPlayers();
+  }
 
   loadPlayers() {
     this.loading = true;
@@ -26,9 +33,16 @@ export class Players {
         this.loading = false;
       },
       error: () => {
-        this.error = 'Could not load players. Please try again later.';
+        this.error = 'Could not load players.';
         this.loading = false;
       }
+    });
+  }
+
+  get filteredPlayers() {
+    return this.players.filter((player) => {
+      const fullName = `${player.FirstName} ${player.LastName}`.toLowerCase();
+      return fullName.includes(this.searchText.toLowerCase());
     });
   }
 }

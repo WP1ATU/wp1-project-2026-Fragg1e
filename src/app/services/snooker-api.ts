@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin, map } from 'rxjs';
+import { Observable, forkJoin, map, of, shareReplay } from 'rxjs';
 import { Match } from '../models/match';
 import { Player } from '../models/player';
 import { Ranking } from '../models/ranking';
@@ -10,6 +10,8 @@ import { Ranking } from '../models/ranking';
 })
 export class SnookerApi {
   private apiUrl = 'http://localhost:3000/api';
+  private playersCache?: Observable<Player[]>;
+  private upcomingMatchesCache?: Observable<Match[]>;
 
   constructor(private http: HttpClient) {}
 
@@ -18,8 +20,29 @@ export class SnookerApi {
   }
 
   getPlayers(): Observable<Player[]> {
-    return this.http.get<Player[]>(`${this.apiUrl}/players`);
+  const cachedPlayers = localStorage.getItem('players');
+
+  if (cachedPlayers) {
+    return new Observable((observer) => {
+      observer.next(JSON.parse(cachedPlayers));
+      observer.complete();
+    });
   }
+
+  if (!this.playersCache) {
+    this.playersCache = this.http
+      .get<Player[]>(`${this.apiUrl}/players`)
+      .pipe(
+        map((players) => {
+          localStorage.setItem('players', JSON.stringify(players));
+          return players;
+        }),
+        shareReplay(1)
+      );
+  }
+
+  return this.playersCache;
+}
 
   getPlayerById(id: number): Observable<Player | undefined> {
     return new Observable((observer) => {
@@ -55,6 +78,33 @@ getRankings(): Observable<Ranking[]> {
   }
 
   getUpcomingMatches(): Observable<Match[]> {
-    return this.http.get<Match[]>(`${this.apiUrl}/upcoming-matches`);
+  const cachedMatches = localStorage.getItem('upcomingMatches');
+
+  if (cachedMatches) {
+    const cache = JSON.parse(cachedMatches);
+
+    if (Date.now() - cache.time < 30 * 60 * 1000) {
+      return of(cache.data);
+    }
   }
+
+  if (!this.upcomingMatchesCache) {
+    this.upcomingMatchesCache = this.http.get<Match[]>(`${this.apiUrl}/upcoming-matches`).pipe(
+      map((matches) => {
+        localStorage.setItem('upcomingMatches', JSON.stringify({
+          time: Date.now(),
+          data: matches
+        }));
+
+        return matches;
+      }),
+      shareReplay(1)
+    );
+  }
+
+  return this.upcomingMatchesCache;
+}
+
+
+
 }

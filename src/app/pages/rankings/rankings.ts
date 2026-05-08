@@ -1,18 +1,26 @@
-import { Component } from '@angular/core';
-import { SnookerApi } from '../../services/snooker-api';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Ranking } from '../../models/ranking';
+import { SnookerApi } from '../../services/snooker-api';
 
 @Component({
   selector: 'app-rankings',
+  imports: [CommonModule, FormsModule],
   templateUrl: './rankings.html',
   styleUrl: './rankings.css'
 })
-export class Rankings {
+export class Rankings implements OnInit {
   rankings: Ranking[] = [];
+  searchText = '';
   loading = false;
   error = '';
 
   constructor(private snookerApi: SnookerApi) {}
+
+  ngOnInit() {
+    this.loadRankings();
+  }
 
   loadRankings() {
     this.loading = true;
@@ -24,9 +32,16 @@ export class Rankings {
         this.loading = false;
       },
       error: () => {
-        this.error = 'Could not load rankings. Please try again later.';
+        this.error = 'Could not load rankings.';
         this.loading = false;
       }
+    });
+  }
+
+  get filteredRankings() {
+    return this.rankings.filter((ranking) => {
+      const playerName = ranking.PlayerName?.toLowerCase() || '';
+      return playerName.includes(this.searchText.toLowerCase());
     });
   }
 }

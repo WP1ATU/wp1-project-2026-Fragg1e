@@ -20,17 +20,14 @@ mongoose.connect(process.env.MONGODB_URI) //connects to MongoDB using .env
     console.log('MongoDB connection error:', error.message);
   });
 
-const predictionSchema = new mongoose.Schema({ //creates schema for predictions 
+const predictionSchema = new mongoose.Schema({
   playerOneName: String,
   playerTwoName: String,
-  playerOneChance: Number,
-  playerTwoChance: Number,
-  factors: [String],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  predictedWinnerName: String,
+  reason: String,
+  createdAt: { type: Date, default: Date.now }
 });
+
 
 const Prediction = mongoose.model('Prediction', predictionSchema); //creates prediction model
 
@@ -102,17 +99,15 @@ app.get('/api/rankings', async (req, res) => {
 
 app.get('/api/players', async (req, res) => {
   try {
-    const data = await cachedCall(
-      'players',
-      24 * 60 * 60 * 1000,
-      { t: 10, st: 'p', s: 2025 }
-    );
+    const data = await cachedCall('players', 24 * 60 * 60 * 1000, {
+      t: 10,
+      st: 'p',
+      s: 2025
+    });
 
     res.json(data);
   } catch (error) {
-    res.status(500).json({
-      message: 'Could not load players'
-    });
+    res.status(500).json({ message: 'Could not load players' });
   }
 });
 
@@ -138,24 +133,27 @@ app.get('/api/predictions', async (req, res) => {
   }
 });
 
-app.get('/api/upcoming-matches', async (req, res) => {
+app.delete('/api/predictions/:id', async (req, res) => {
   try {
-    const data = await cachedCall(
-      'upcoming-matches',
-      60 * 1000,
-      { t: 14, tr: 'main' }
-    );
-
-    res.json(data);
+    await Prediction.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Prediction deleted' });
   } catch (error) {
-    res.status(500).json({
-      message: 'Could not load upcoming matches'
-    });
+    res.status(500).json({ message: 'Could not delete prediction' });
   }
 });
 
+app.get('/api/upcoming-matches', async (req, res) => {
+  try {
+    const data = await cachedCall('upcoming-matches', 30 * 60 * 1000, {
+      t: 14,
+      tr: 'main'
+    });
 
-
+    res.json(data.slice(0, 20));
+  } catch (error) {
+    res.status(500).json({ message: 'Could not load upcoming matches' });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -1,25 +1,30 @@
 <h2>Saved Predictions</h2>
 
-<p>This page will show predictions saved in MongoDB.</p>
+<p *ngIf="loading">Loading saved predictions...</p>
+<p *ngIf="error" class="text-danger">{{ error }}</p>
 
-<button type="button" (click)="loadPredictions()">
-  Load Saved Predictions
-</button>
+<table class="table table-striped" *ngIf="predictions.length > 0">
+  <thead>
+    <tr>
+      <th>Player 1</th>
+      <th>Player 2</th>
+      <th>Predicted Winner</th>
+      <th>Reason</th>
+      <th>Saved At</th>
+    </tr>
+  </thead>
 
-@if (error) {
-  <p>{{ error }}</p>
-}
+  <tbody>
+    <tr *ngFor="let prediction of predictions">
+      <td>{{ prediction.playerOneName }}</td>
+      <td>{{ prediction.playerTwoName }}</td>
+      <td>{{ prediction.predictedWinnerName }}</td>
+      <td>{{ prediction.reason }}</td>
+      <td>{{ prediction.createdAt | date:'medium' }}</td>
+      <td><button class="btn btn-sm btn-danger" (click)="deletePrediction(prediction._id)">Delete</button></td></tr>
+  </tbody>
+</table>
 
-@if (predictions.length > 0) {
-  <ul>
-    @for (prediction of predictions; track prediction._id) {
-      <li>
-        {{ prediction.playerOneName }}
-        {{ prediction.playerOneChance }}%
-        vs
-        {{ prediction.playerTwoName }}
-        {{ prediction.playerTwoChance }}%
-      </li>
-    }
-  </ul>
-}
+<p *ngIf="!loading && predictions.length === 0">
+  No saved predictions yet.
+</p>

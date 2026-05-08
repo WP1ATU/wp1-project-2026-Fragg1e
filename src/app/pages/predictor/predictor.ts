@@ -1,73 +1,87 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Prediction } from '../../models/prediction';
 import { Ranking } from '../../models/ranking';
-import { PredictionService } from '../../services/prediction';
-import { SavedPredictionService } from '../../services/saved-prediction';
+import { Prediction } from '../../models/prediction';
 import { SnookerApi } from '../../services/snooker-api';
+import { SavedPredictionService } from '../../services/saved-prediction';
 
 @Component({
   selector: 'app-predictor',
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './predictor.html',
   styleUrl: './predictor.css'
 })
-export class Predictor {
-  rankings: Ranking[] = [];
-  selectedPlayerOneId = '';
-  selectedPlayerTwoId = '';
+export class Predictor implements OnInit {
+  players: Ranking[] = [];
+  loading = false;
+  selectedPlayerOneId = 0;
+  selectedPlayerTwoId = 0;
+  predictedWinnerName = '';
+  reason = '';
   prediction?: Prediction;
-  message = '';
   error = '';
+  feedback = '';
 
   constructor(
     private snookerApi: SnookerApi,
-    private predictionService: PredictionService,
     private savedPredictionService: SavedPredictionService
   ) {}
 
-  loadRankings() {
+  ngOnInit() {
+    this.loadPlayers();
+  }
+
+  loadPlayers() {
+    this.loading = true;
     this.error = '';
 
     this.snookerApi.getRankings().subscribe({
       next: (data) => {
-        this.rankings = data;
+        this.players = data;
+        this.loading = false;
       },
       error: () => {
-        this.error = 'Could not load rankings for predictor.';
+        this.error = 'Could not load players.';
+        this.loading = false;
       }
     });
   }
 
-  createPrediction() {
-    const playerOne = this.rankings.find(
-      (player) => player.PlayerID === Number(this.selectedPlayerOneId)
-    );
-
-    const playerTwo = this.rankings.find(
-      (player) => player.PlayerID === Number(this.selectedPlayerTwoId)
-    );
-
-    if (!playerOne || !playerTwo) {
-      this.error = 'Please select two players.';
-      return;
-    }
-
-    this.prediction = this.predictionService.createPrediction(playerOne, playerTwo);
-  }
-
   savePrediction() {
-    if (!this.prediction) {
+    const playerOne = this.players.find((player) => player.PlayerID === Number(this.selectedPlayerOneId));
+    const playerTwo = this.players.find((player) => player.PlayerID === Number(this.selectedPlayerTwoId));
+
+    if (!playerOne || !playerTwo || !this.predictedWinnerName || !this.reason) {
+      this.error = 'Please select two players, choose a winner, and enter a reason.';
       return;
     }
 
-    this.savedPredictionService.savePrediction(this.prediction).subscribe({
+    const prediction = {
+      playerOneName: playerOne.PlayerName || 'Player one',
+      playerTwoName: playerTwo.PlayerName || 'Player two',
+      predictedWinnerName: this.predictedWinnerName,
+      reason: this.reason
+    };
+
+    this.savedPredictionService.savePrediction(prediction).subscribe({
       next: () => {
-        this.message = 'Prediction saved.';
+        this.feedback = 'Prediction saved successfully.';
+        this.prediction = prediction;
       },
       error: () => {
         this.error = 'Could not save prediction.';
       }
     });
+  }
+
+  resetPrediction() {
+    this.selectedPlayerOneId = 0;
+    this.selectedPlayerTwoId = 0;
+    this.predictedWinnerName = '';
+    this.reason = '';
+    this.prediction = undefined;
+    this.error = '';
+    this.feedback = '';
   }
 }

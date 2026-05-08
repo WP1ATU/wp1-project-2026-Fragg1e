@@ -8,4 +8,5 @@ import { Header } from './components/header/header';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {}
+export class App {
+}

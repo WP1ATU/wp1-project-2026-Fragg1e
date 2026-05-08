@@ -2,8 +2,7 @@ export interface SavedPrediction {
   _id?: string;
   playerOneName: string;
   playerTwoName: string;
-  playerOneChance: number;
-  playerTwoChance: number;
-  factors: string[];
+  predictedWinnerName: string;
+  reason: string;
   createdAt?: string;
 }

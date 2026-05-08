@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SnookerApi } from '../../services/snooker-api';
 import { Match } from '../../models/match';
@@ -9,41 +9,49 @@ import { Match } from '../../models/match';
   templateUrl: './live-matches.html',
   styleUrl: './live-matches.css'
 })
-export class LiveMatches {
-  matches: Match[] = [];
-  loading = false;
-  error = '';
+export class LiveMatches implements OnInit {
+  liveMatches: Match[] = [];
+  upcomingMatches: Match[] = [];
+  loadingLive = false;
+  loadingUpcoming = false;
+  liveError = '';
+  upcomingError = '';
 
   constructor(private snookerApi: SnookerApi) {}
 
+  ngOnInit() {
+    this.loadLiveMatches();
+    this.loadUpcomingMatches();
+  }
+
   loadLiveMatches() {
-    this.loading = true;
-    this.error = '';
+    this.loadingLive = true;
+    this.liveError = '';
 
     this.snookerApi.getLiveMatches().subscribe({
       next: (data) => {
-        this.matches = data;
-        this.loading = false;
+        this.liveMatches = data;
+        this.loadingLive = false;
       },
       error: () => {
-        this.error = 'Could not load live matches.';
-        this.loading = false;
+        this.liveError = 'Could not load live matches.';
+        this.loadingLive = false;
       }
     });
   }
 
   loadUpcomingMatches() {
-    this.loading = true;
-    this.error = '';
+    this.loadingUpcoming = true;
+    this.upcomingError = '';
 
     this.snookerApi.getUpcomingMatches().subscribe({
       next: (data) => {
-        this.matches = data;
-        this.loading = false;
+        this.upcomingMatches = data;
+        this.loadingUpcoming = false;
       },
       error: () => {
-        this.error = 'Could not load upcoming matches.';
-        this.loading = false;
+        this.upcomingError = 'Could not load upcoming matches.';
+        this.loadingUpcoming = false;
       }
     });
   }

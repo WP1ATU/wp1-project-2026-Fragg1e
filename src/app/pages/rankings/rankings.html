@@ -1,36 +1,37 @@
 <h2>Rankings</h2>
 
-<p>This page shows the current snooker money rankings from the API.</p>
+<input
+  class="form-control mb-3"
+  type="text"
+  placeholder="Search rankings by player name"
+  [(ngModel)]="searchText"
+>
 
-<button class="btn btn-primary" type="button" (click)="loadRankings()">
-  Load Rankings
+<p *ngIf="loading">Loading rankings...</p>
+<p *ngIf="error" class="text-danger">{{ error }}</p>
 
-@if (loading) {
-  <p>Loading rankings...</p>
-}
+<table class="table table-striped" *ngIf="filteredRankings.length > 0">
+  <thead>
+    <tr>
+      <th>Position</th>
+      <th>Player</th>
+      <th>Prize Money</th>
+    </tr>
+  </thead>
 
-@if (error) {
-  <p>{{ error }}</p>
-}
+  <tbody>
+    <tr *ngFor="let ranking of filteredRankings">
+      <td>{{ ranking.Position }}</td>
+      <td>{{ ranking.PlayerName }}</td>
+      <td>{{ ranking.Sum }}</td>
+    </tr>
+  </tbody>
+</table>
 
-@if (rankings.length > 0) {
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Position</th>
-        <th>Player</th>
-        <th>Prize Money</th>
-      </tr>
-    </thead>
+<p *ngIf="!loading && rankings.length > 0 && filteredRankings.length === 0">
+  No rankings match your search.
+</p>
 
-    <tbody>
-      @for (ranking of rankings; track ranking.ID) {
-        <tr>
-          <td>{{ ranking.Position }}</td>
-          <td>{{ ranking.PlayerName }}</td>
-          <td>{{ ranking.Sum }}</td>
-        </tr>
-      }
-    </tbody>
-  </table>
-}
+<p *ngIf="!loading && rankings.length === 0">
+  No rankings loaded yet.
+</p>

@@ -12,11 +12,15 @@ export class SavedPredictionService {
 
   constructor(private http: HttpClient) {}
 
+  savePrediction(prediction: Prediction): Observable<SavedPrediction> {
+    return this.http.post<SavedPrediction>(this.apiUrl, prediction);
+  }
+
   getSavedPredictions(): Observable<SavedPrediction[]> {
     return this.http.get<SavedPrediction[]>(this.apiUrl);
   }
 
-  savePrediction(prediction: Prediction): Observable<SavedPrediction> {
-    return this.http.post<SavedPrediction>(this.apiUrl, prediction);
+  deletePrediction(id: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
   }
 }
