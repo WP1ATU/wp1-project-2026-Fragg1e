@@ -45,3 +45,5 @@ Thumbs.db
 
 # Local dev logs
 ng-serve.*.log
+server/.env
+/server/node_modules
