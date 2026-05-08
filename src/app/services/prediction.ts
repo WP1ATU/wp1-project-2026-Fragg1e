@@ -10,19 +10,22 @@ export class PredictionService {
     let playerOneChance = 50;
     const factors: string[] = [];
 
+    const playerOneName = playerOne.PlayerName || `Player ${playerOne.PlayerID}`;
+    const playerTwoName = playerTwo.PlayerName || `Player ${playerTwo.PlayerID}`;
+
     if (playerOne.Position < playerTwo.Position) {
       playerOneChance += 10;
-      factors.push(`Player ${playerOne.PlayerID} has the better ranking.`);
+      factors.push(`${playerOneName} has the better ranking.`);
     } else if (playerTwo.Position < playerOne.Position) {
       playerOneChance -= 10;
-      factors.push(`Player ${playerTwo.PlayerID} has the better ranking.`);
+      factors.push(`${playerTwoName} has the better ranking.`);
     } else {
       factors.push('Both players have the same ranking position.');
     }
 
     return {
-      playerOneName: `Player ${playerOne.PlayerID}`,
-      playerTwoName: `Player ${playerTwo.PlayerID}`,
+      playerOneName,
+      playerTwoName,
       playerOneChance,
       playerTwoChance: 100 - playerOneChance,
       factors

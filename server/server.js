@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -11,7 +12,29 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-async function callSnookerApi(params) {
+mongoose.connect(process.env.MONGODB_URI) //connects to MongoDB using .env 
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.log('MongoDB connection error:', error.message);
+  });
+
+const predictionSchema = new mongoose.Schema({ //creates schema for predictions 
+  playerOneName: String,
+  playerTwoName: String,
+  playerOneChance: Number,
+  playerTwoChance: Number,
+  factors: [String],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const Prediction = mongoose.model('Prediction', predictionSchema); //creates prediction model
+
+async function callSnookerApi(params) { //calls the API and returns data
   const response = await axios.get(process.env.SNOOKER_API_BASE, {
     params: params,
     headers: {
@@ -22,7 +45,7 @@ async function callSnookerApi(params) {
   return response.data;
 }
 
-const cache = new Map();
+const cache = new Map(); //simple in-memory cache
 
 async function cachedCall(key, ttlMs, params) { //helps with caching to keep to 10 / min
   const cached = cache.get(key);
@@ -92,6 +115,29 @@ app.get('/api/players', async (req, res) => {
     });
   }
 });
+
+app.post('/api/predictions', async (req, res) => {
+  try {
+    const prediction = await Prediction.create(req.body);
+    res.status(201).json(prediction);
+  } catch (error) {
+    res.status(500).json({
+      message: 'Could not save prediction'
+    });
+  }
+});
+
+app.get('/api/predictions', async (req, res) => {
+  try {
+    const predictions = await Prediction.find().sort({ createdAt: -1 });
+    res.json(predictions);
+  } catch (error) {
+    res.status(500).json({
+      message: 'Could not load predictions'
+    });
+  }
+});
+
 
 
 app.listen(PORT, () => {

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin, map } from 'rxjs';
 import { Match } from '../models/match';
 import { Player } from '../models/player';
 import { Ranking } from '../models/ranking';
@@ -37,6 +37,20 @@ export class SnookerApi {
 }
 
   getRankings(): Observable<Ranking[]> {
-    return this.http.get<Ranking[]>(`${this.apiUrl}/rankings`);
-  }
+  return forkJoin({
+    rankings: this.http.get<Ranking[]>(`${this.apiUrl}/rankings`),
+    players: this.getPlayers()
+  }).pipe(
+    map((data) => {
+      return data.rankings.map((ranking) => {
+        const player = data.players.find((item) => item.ID === ranking.PlayerID);
+
+        return {
+          ...ranking,
+          PlayerName: player ? `${player.FirstName} ${player.LastName}` : `Player ${ranking.PlayerID}`
+        };
+      });
+    })
+  );
+}
 }

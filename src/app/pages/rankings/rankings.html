@@ -18,7 +18,7 @@
     <thead>
       <tr>
         <th>Position</th>
-        <th>Player ID</th>
+        <th>Player</th>
         <th>Prize Money</th>
       </tr>
     </thead>
@@ -27,7 +27,7 @@
       @for (ranking of rankings; track ranking.ID) {
         <tr>
           <td>{{ ranking.Position }}</td>
-          <td>{{ ranking.PlayerID }}</td>
+          <td>{{ ranking.PlayerName }}</td>
           <td>{{ ranking.Sum }}</td>
         </tr>
       }

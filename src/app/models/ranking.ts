@@ -5,4 +5,5 @@ export interface Ranking {
   Season: number;
   Sum: number;
   Type: string;
+  PlayerName?: string;
 }
