@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Player } from '../../models/player';
 import { SnookerApi } from '../../services/snooker-api';
 
 @Component({
   selector: 'app-player-profile',
+  imports: [CommonModule],
   templateUrl: './player-profile.html',
   styleUrl: './player-profile.css'
 })

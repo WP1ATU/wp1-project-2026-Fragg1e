@@ -20,29 +20,24 @@ export class SnookerApi {
   }
 
   getPlayers(): Observable<Player[]> {
-  const cachedPlayers = localStorage.getItem('players');
+    const cachedPlayers = localStorage.getItem('players');
 
-  if (cachedPlayers) {
-    return new Observable((observer) => {
-      observer.next(JSON.parse(cachedPlayers));
-      observer.complete();
-    });
-  }
+    if (cachedPlayers) {
+      return of(JSON.parse(cachedPlayers));
+    }
 
-  if (!this.playersCache) {
-    this.playersCache = this.http
-      .get<Player[]>(`${this.apiUrl}/players`)
-      .pipe(
+    if (!this.playersCache) {
+      this.playersCache = this.http.get<Player[]>(`${this.apiUrl}/players`).pipe(
         map((players) => {
           localStorage.setItem('players', JSON.stringify(players));
           return players;
         }),
         shareReplay(1)
       );
-  }
+    }
 
-  return this.playersCache;
-}
+    return this.playersCache;
+  }
 
   getPlayerById(id: number): Observable<Player | undefined> {
     return new Observable((observer) => {
@@ -59,52 +54,54 @@ export class SnookerApi {
     });
   }
 
-getRankings(): Observable<Ranking[]> {
-  return forkJoin({
-    rankings: this.http.get<Ranking[]>(`${this.apiUrl}/rankings`),
-    players: this.getPlayers()
-  }).pipe(
-    map((data) => {
-      return data.rankings.map((ranking) => {
-        const player = data.players.find((item) => item.ID === ranking.PlayerID);
+  getRankings(): Observable<Ranking[]> {
+    return forkJoin({
+      rankings: this.http.get<Ranking[]>(`${this.apiUrl}/rankings`),
+      players: this.getPlayers()
+    }).pipe(
+      map((data) => {
+        return data.rankings.map((ranking) => {
+          const player = data.players.find((item) => item.ID === ranking.PlayerID);
 
-        return {
-          ...ranking,
-          PlayerName: player ? `${player.FirstName} ${player.LastName}` : `Player ${ranking.PlayerID}`
-        };
-      });
-    })
-  );
-  }
-
-  getUpcomingMatches(): Observable<Match[]> {
-  const cachedMatches = localStorage.getItem('upcomingMatches');
-
-  if (cachedMatches) {
-    const cache = JSON.parse(cachedMatches);
-
-    if (Date.now() - cache.time < 30 * 60 * 1000) {
-      return of(cache.data);
-    }
-  }
-
-  if (!this.upcomingMatchesCache) {
-    this.upcomingMatchesCache = this.http.get<Match[]>(`${this.apiUrl}/upcoming-matches`).pipe(
-      map((matches) => {
-        localStorage.setItem('upcomingMatches', JSON.stringify({
-          time: Date.now(),
-          data: matches
-        }));
-
-        return matches;
-      }),
-      shareReplay(1)
+          return {
+            ...ranking,
+            PlayerName: player
+              ? `${player.FirstName} ${player.LastName}`
+              : `Player ${ranking.PlayerID}`
+          };
+        });
+      })
     );
   }
 
-  return this.upcomingMatchesCache;
-}
+  getUpcomingMatches(): Observable<Match[]> {
+    const cachedMatches = localStorage.getItem('upcomingMatches');
 
+    if (cachedMatches) {
+      const cache = JSON.parse(cachedMatches);
 
+      if (Date.now() - cache.time < 30 * 60 * 1000) {
+        return of(cache.data);
+      }
+    }
 
+    if (!this.upcomingMatchesCache) {
+      this.upcomingMatchesCache = this.http.get<Match[]>(`${this.apiUrl}/upcoming-matches`).pipe(
+        map((matches) => {
+          localStorage.setItem(
+            'upcomingMatches',
+            JSON.stringify({
+              time: Date.now(),
+              data: matches
+            })
+          );
+
+          return matches;
+        }),
+        shareReplay(1)
+      );
+    }
+
+    return this.upcomingMatchesCache;
+  }
 }

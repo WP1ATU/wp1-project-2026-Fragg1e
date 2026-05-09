@@ -1,17 +1,20 @@
-<h2>Dashboard</h2>
+<section class="dashboard-hero">
+  <h2>Dashboard</h2>
 
-<p>
-  SnookerStats is an Angular web application for viewing snooker rankings, players,
-  live and upcoming matches, and saved user predictions.
-</p>
+  <p>
+    SnookerStats is an Angular web application for viewing snooker rankings, players,
+    live and upcoming matches, and saved user predictions.
+  </p>
+</section>
 
-<section>
+<section class="dashboard-links">
   <h3>Main Features</h3>
-  <ul>
-    <li><a routerLink="/live">View live and upcoming matches</a></li>
-    <li><a routerLink="/rankings">Search snooker rankings</a></li>
-    <li><a routerLink="/players">Search player profiles</a></li>
-    <li><a routerLink="/predictor">Create and save a match prediction</a></li>
-    <li><a routerLink="/saved">View and delete saved predictions</a></li>
-  </ul>
+
+  <div class="feature-grid">
+    <a routerLink="/live">Live and Upcoming Matches</a>
+    <a routerLink="/rankings">Search Rankings</a>
+    <a routerLink="/players">Search Player Profiles</a>
+    <a routerLink="/predictor">Create a Prediction</a>
+    <a routerLink="/saved">Saved Predictions</a>
+  </div>
 </section>

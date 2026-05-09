@@ -1,0 +1,32 @@
+.dashboard-hero {
+  background-color: white;
+  border: 1px solid #d9e2ec;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.dashboard-hero p {
+  max-width: 760px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.feature-grid a {
+  display: block;
+  background-color: white;
+  border: 1px solid #d9e2ec;
+  padding: 18px;
+  color: #102a43;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.feature-grid a:hover {
+  background-color: #e6edf3;
+}

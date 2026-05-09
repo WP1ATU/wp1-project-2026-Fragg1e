@@ -1,20 +1,46 @@
 <h2>Player Profile</h2>
 
-@if (error) {
-  <p>{{ error }}</p>
-}
+<p *ngIf="error" class="text-danger">{{ error }}</p>
 
-@if (player) {
-  <section>
-    <h3>{{ player.FirstName }} {{ player.LastName }}</h3>
+<section class="profile-card" *ngIf="player">
+  <img *ngIf="player.Photo" [src]="player?.Photo" alt="player?.FirstName + ' ' + player?.LastName">
 
-    @if (player.Photo) {
-      <img [src]="player.Photo" alt="{{ player.FirstName }} {{ player.LastName }}" width="160">
-    }
+  <div class="profile-details">
+    <h3>{{ player?.FirstName }} {{ player?.LastName }}</h3>
 
-    <p>Nationality: {{ player.Nationality }}</p>
-    <p>Date of birth: {{ player.Born }}</p>
-    <p>Ranking titles: {{ player.NumRankingTitles }}</p>
-    <p>Maximum breaks: {{ player.NumMaximums }}</p>
-  </section>
-}
+    <div class="detail-grid">
+      <p><strong>Player ID:</strong> {{ player?.ID }}</p>
+      <p><strong>Nationality:</strong> {{ player?.Nationality || 'Unknown' }}</p>
+      <p><strong>Sex:</strong> {{ player?.Sex || 'Unknown' }}</p>
+      <p><strong>Date of Birth:</strong> {{ player?.Born || 'Unknown' }}</p>
+      <p><strong>Licence:</strong> {{ player?.License || 'Unknown' }}</p>
+      <p><strong>Club:</strong> {{ player?.Club || 'Unknown' }}</p>
+      <p><strong>Ranking Titles:</strong> {{ player?.NumRankingTitles || 0 }}</p>
+      <p><strong>Maximum Breaks:</strong> {{ player?.NumMaximums || 0 }}</p>
+    </div>
+
+    <p *ngIf="player?.Info">
+      <strong>Info:</strong> {{ player?.Info }}
+    </p>
+
+    <p *ngIf="player?.Twitter">
+      <strong>Twitter:</strong> {{ player?.Twitter }}
+    </p>
+
+    <p *ngIf="player?.BioPage">
+      <a class="btn btn-sm btn-secondary" [href]="player?.BioPage" target="_blank">
+        Biography Page
+      </a>
+    </p>
+
+    <p *ngIf="player?.URL">
+      <a class="btn btn-sm btn-secondary" [href]="player?.URL" target="_blank">
+        Player Website
+      </a>
+    </p>
+  </div>
+</section>
+
+<p *ngIf="!player && !error">
+  Player not found.
+</p>

@@ -67,6 +67,7 @@ export class Predictor implements OnInit {
     this.savedPredictionService.savePrediction(prediction).subscribe({
       next: () => {
         this.feedback = 'Prediction saved successfully.';
+        this.error = '';
         this.prediction = prediction;
       },
       error: () => {

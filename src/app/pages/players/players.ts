@@ -14,14 +14,14 @@ import { SnookerApi } from '../../services/snooker-api';
 export class Players implements OnInit {
   players: Player[] = [];
   searchText = '';
-  sortColumn = "";
-  sortDirection = "desc";
+  sortColumn = '';
+  sortDirection = 'desc';
   loading = false;
   error = '';
 
   constructor(private snookerApi: SnookerApi) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.loadPlayers();
   }
 
