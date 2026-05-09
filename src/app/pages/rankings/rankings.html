@@ -7,31 +7,40 @@
   [(ngModel)]="searchText"
 >
 
-<p *ngIf="loading">Loading rankings...</p>
-<p *ngIf="error" class="text-danger">{{ error }}</p>
+@if (loading) {
+  <p>Loading rankings...</p>
+}
 
-<table class="table table-striped" *ngIf="filteredRankings.length > 0">
-  <thead>
-    <tr>
-      <th>Position</th>
-      <th>Player</th>
-      <th>Prize Money</th>
-    </tr>
-  </thead>
+@if (error) {
+  <p class="text-danger">{{ error }}</p>
+}
 
-  <tbody>
-    <tr *ngFor="let ranking of filteredRankings">
-      <td>{{ ranking.Position }}</td>
-      <td>{{ ranking.PlayerName }}</td>
-      <td>{{ ranking.Sum }}</td>
-    </tr>
-  </tbody>
-</table>
+@if (filteredRankings.length > 0) {
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Position</th>
+        <th>Player</th>
+        <th>Prize Money</th>
+      </tr>
+    </thead>
 
-<p *ngIf="!loading && rankings.length > 0 && filteredRankings.length === 0">
-  No rankings match your search.
-</p>
+    <tbody>
+      @for (ranking of filteredRankings; track ranking.ID) {
+        <tr>
+          <td>{{ ranking.Position }}</td>
+          <td>{{ ranking.PlayerName }}</td>
+          <td>{{ ranking.Sum }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
 
-<p *ngIf="!loading && rankings.length === 0">
-  No rankings loaded yet.
-</p>
+@if (!loading && rankings.length > 0 && filteredRankings.length === 0) {
+  <p>No rankings match your search.</p>
+}
+
+@if (!loading && rankings.length === 0) {
+  <p>No rankings loaded yet.</p>
+}

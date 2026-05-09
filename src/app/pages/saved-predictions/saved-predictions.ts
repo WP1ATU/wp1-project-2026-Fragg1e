@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { SavedPrediction } from '../../models/saved-prediction';
 import { SavedPredictionService } from '../../services/saved-prediction';
 
 @Component({
   selector: 'app-saved-predictions',
-  imports: [CommonModule, DatePipe],
+  imports: [DatePipe],
   templateUrl: './saved-predictions.html',
   styleUrl: './saved-predictions.css'
 })
@@ -24,7 +24,7 @@ export class SavedPredictions implements OnInit {
     this.loading = true;
     this.error = '';
 
-    this.savedPredictionService.getSavedPredictions().subscribe({
+    this.savedPredictionService.getSavedPredictions().subscribe({ //gets saved predictions
       next: (data) => {
         this.predictions = data;
         this.loading = false;
@@ -43,13 +43,13 @@ export class SavedPredictions implements OnInit {
 
     const confirmed = confirm('Are you sure you want to delete this prediction?');
 
-    if (!confirmed) {
+    if (!confirmed) { 
       return;
     }
 
-    this.savedPredictionService.deletePrediction(id).subscribe({
+    this.savedPredictionService.deletePrediction(id).subscribe({ //deletes prediction
       next: () => {
-        this.loadPredictions();
+        this.loadPredictions(); //reloads 
       },
       error: () => {
         this.error = 'Could not delete prediction.';
@@ -58,3 +58,4 @@ export class SavedPredictions implements OnInit {
   }
 
 }
+

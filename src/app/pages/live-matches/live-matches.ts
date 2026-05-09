@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { SnookerApi } from '../../services/snooker-api';
 import { Match } from '../../models/match';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-live-matches',
-  imports: [CommonModule],
+  imports: [DatePipe, RouterLink],
   templateUrl: './live-matches.html',
   styleUrl: './live-matches.css'
 })
@@ -19,7 +21,7 @@ export class LiveMatches implements OnInit {
 
   constructor(private snookerApi: SnookerApi) {}
 
-  ngOnInit() {
+  ngOnInit() { //runs when page loads
     this.loadLiveMatches();
     this.loadUpcomingMatches();
   }
@@ -28,7 +30,7 @@ export class LiveMatches implements OnInit {
     this.loadingLive = true;
     this.liveError = '';
 
-    this.snookerApi.getLiveMatches().subscribe({
+    this.snookerApi.getLiveMatches().subscribe({ //calls backend to get live matches
       next: (data) => {
         this.liveMatches = data;
         this.loadingLive = false;
@@ -44,7 +46,7 @@ export class LiveMatches implements OnInit {
     this.loadingUpcoming = true;
     this.upcomingError = '';
 
-    this.snookerApi.getUpcomingMatches().subscribe({
+    this.snookerApi.getUpcomingMatches().subscribe({ //calls backend to get upcoming matches
       next: (data) => {
         this.upcomingMatches = data;
         this.loadingUpcoming = false;
@@ -56,3 +58,4 @@ export class LiveMatches implements OnInit {
     });
   }
 }
+

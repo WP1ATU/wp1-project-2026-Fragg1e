@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Ranking } from '../../models/ranking';
 import { Prediction } from '../../models/prediction';
@@ -8,7 +7,7 @@ import { SavedPredictionService } from '../../services/saved-prediction';
 
 @Component({
   selector: 'app-predictor',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './predictor.html',
   styleUrl: './predictor.css'
 })
@@ -48,8 +47,21 @@ export class Predictor implements OnInit {
     });
   }
 
+  get selectedPlayerOneName(): string {
+    return this.getPlayerName(this.selectedPlayerOneId);
+  }
+
+  get selectedPlayerTwoName(): string {
+    return this.getPlayerName(this.selectedPlayerTwoId);
+  }
+
+  getPlayerName(playerId: number): string {
+    const player = this.players.find((item) => item.PlayerID === Number(playerId));
+    return player?.PlayerName || '';
+  }
+
   savePrediction() {
-    const playerOne = this.players.find((player) => player.PlayerID === Number(this.selectedPlayerOneId));
+    const playerOne = this.players.find((player) => player.PlayerID === Number(this.selectedPlayerOneId)); //finds player
     const playerTwo = this.players.find((player) => player.PlayerID === Number(this.selectedPlayerTwoId));
 
     if (!playerOne || !playerTwo || !this.predictedWinnerName || !this.reason) {
@@ -57,14 +69,14 @@ export class Predictor implements OnInit {
       return;
     }
 
-    const prediction = {
+    const prediction = { //creates prediction obhject 
       playerOneName: playerOne.PlayerName || 'Player one',
       playerTwoName: playerTwo.PlayerName || 'Player two',
       predictedWinnerName: this.predictedWinnerName,
       reason: this.reason
     };
 
-    this.savedPredictionService.savePrediction(prediction).subscribe({
+    this.savedPredictionService.savePrediction(prediction).subscribe({ //calls backend and posts prediction
       next: () => {
         this.feedback = 'Prediction saved successfully.';
         this.error = '';

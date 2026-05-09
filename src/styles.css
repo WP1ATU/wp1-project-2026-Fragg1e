@@ -5,9 +5,9 @@ body {
 }
 
 main {
-  max-width: 1200px;
+  max-width: 1450px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 28px 40px;
 }
 
 h2 {
@@ -111,5 +111,43 @@ textarea {
 
 .table a {
   font-weight: 600;
+}
+
+.page-panel {
+  background-color: white;
+  border: 1px solid #d9e2ec;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.page-intro {
+  max-width: 760px;
+  color: #52606d;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #d9e2ec;
+  margin: 36px 0;
+}
+
+.table {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+.form-control,
+.form-select,
+textarea {
+  background-color: white;
+}
+
+a {
+  color: #1d4ed8;
+}
+
+a:hover {
+  color: #1e40af;
 }
 

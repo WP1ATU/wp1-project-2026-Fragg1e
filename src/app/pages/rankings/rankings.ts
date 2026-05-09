@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Ranking } from '../../models/ranking';
 import { SnookerApi } from '../../services/snooker-api';
 
 @Component({
   selector: 'app-rankings',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './rankings.html',
   styleUrl: './rankings.css'
 })
@@ -38,10 +37,11 @@ export class Rankings implements OnInit {
     });
   }
 
-  get filteredRankings() {
+  get filteredRankings() { //filters basdxed on search
     return this.rankings.filter((ranking) => {
       const playerName = ranking.PlayerName?.toLowerCase() || '';
       return playerName.includes(this.searchText.toLowerCase());
     });
   }
 }
+

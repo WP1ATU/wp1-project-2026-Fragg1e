@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Player } from '../../models/player';
@@ -7,7 +6,7 @@ import { SnookerApi } from '../../services/snooker-api';
 
 @Component({
   selector: 'app-players',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink],
   templateUrl: './players.html',
   styleUrl: './players.css'
 })
@@ -41,13 +40,13 @@ export class Players implements OnInit {
     });
   }
 
-  get filteredPlayers() {
-    const filtered = this.players.filter((player) => {
+  get filteredPlayers() { 
+    const filtered = this.players.filter((player) => { //filters players based on search text
       const fullName = `${player.FirstName} ${player.LastName}`.toLowerCase();
       return fullName.includes(this.searchText.toLowerCase());
     });
 
-    if (this.sortColumn === 'titles') {
+    if (this.sortColumn === 'titles') { //sorts players based on number of ranking titles
       return filtered.sort((a, b) => {
         const first = a.NumRankingTitles || 0;
         const second = b.NumRankingTitles || 0;
@@ -56,7 +55,7 @@ export class Players implements OnInit {
       });
     }
 
-    if (this.sortColumn === 'maximums') {
+    if (this.sortColumn === 'maximums') { //sorts players based on number of maximumss
       return filtered.sort((a, b) => {
         const first = a.NumMaximums || 0;
         const second = b.NumMaximums || 0;
@@ -68,9 +67,9 @@ export class Players implements OnInit {
     return filtered;
   }
 
-  sortPlayers(column: string) {
+  sortPlayers(column: string) { //handles sorting when user clicks on column header
     if (this.sortColumn === column) {
-      this.sortDirection = this.sortDirection === 'desc' ? 'asc' : 'desc';
+      this.sortDirection = this.sortDirection === 'desc' ? 'asc' : 'desc'; //toggles sort direction if same column is clicked
     } else {
       this.sortColumn = column;
       this.sortDirection = 'desc';
@@ -78,3 +77,4 @@ export class Players implements OnInit {
   }
 
 }
+

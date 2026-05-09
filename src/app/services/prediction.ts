@@ -5,7 +5,7 @@ import { Prediction } from '../models/prediction';
   providedIn: 'root'
 })
 export class PredictionService {
-  createUserPrediction(
+  createUserPrediction( //creates prediction based on user input
     playerOneName: string,
     playerTwoName: string,
     predictedWinnerName: string,

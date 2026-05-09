@@ -4,6 +4,7 @@ import { Observable, forkJoin, map, of, shareReplay } from 'rxjs';
 import { Match } from '../models/match';
 import { Player } from '../models/player';
 import { Ranking } from '../models/ranking';
+import { SnookerEvent } from '../models/event';
 
 @Injectable({
   providedIn: 'root'
@@ -22,59 +23,51 @@ export class SnookerApi {
   getPlayers(): Observable<Player[]> {
     const cachedPlayers = localStorage.getItem('players');
 
-    if (cachedPlayers) {
+    if (cachedPlayers) { //checks if players are cached 
       return of(JSON.parse(cachedPlayers));
     }
 
-    if (!this.playersCache) {
+    if (!this.playersCache) { //else calls backend and caches result
       this.playersCache = this.http.get<Player[]>(`${this.apiUrl}/players`).pipe(
         map((players) => {
           localStorage.setItem('players', JSON.stringify(players));
           return players;
         }),
-        shareReplay(1)
+        shareReplay(1) //allows different pages to use same cached data
       );
     }
-
     return this.playersCache;
   }
 
-  getPlayerById(id: number): Observable<Player | undefined> {
-    return new Observable((observer) => {
-      this.getPlayers().subscribe({
-        next: (players) => {
-          const player = players.find((item) => item.ID === id);
-          observer.next(player);
-          observer.complete();
-        },
-        error: (error) => {
-          observer.error(error);
-        }
-      });
-    });
+  getPlayerById(id: number): Observable<Player | undefined> { //finds player by id using cached players data
+    return this.getPlayers().pipe(
+      map((players) => players.find((item) => item.ID === id))
+    );
   }
 
-  getRankings(): Observable<Ranking[]> {
+  getRankings(): Observable<Ranking[]> { //combines rankings with player names 
     return forkJoin({
       rankings: this.http.get<Ranking[]>(`${this.apiUrl}/rankings`),
       players: this.getPlayers()
     }).pipe(
       map((data) => {
         return data.rankings.map((ranking) => {
-          const player = data.players.find((item) => item.ID === ranking.PlayerID);
+          const matchingPlayer = data.players.find((player) => player.ID === ranking.PlayerID); //finds player for each ranking
+          const playerName = matchingPlayer
+            ? `${matchingPlayer.FirstName} ${matchingPlayer.LastName}` //formats player name
+            : `Player ${ranking.PlayerID}`;
 
           return {
             ...ranking,
-            PlayerName: player
-              ? `${player.FirstName} ${player.LastName}`
-              : `Player ${ranking.PlayerID}`
+            PlayerName: playerName
           };
         });
       })
     );
   }
 
-  getUpcomingMatches(): Observable<Match[]> {
+
+  getUpcomingMatches(): Observable<Match[]> { //checks if upcoming matches are cached and valid, else calls backend and caches 
     const cachedMatches = localStorage.getItem('upcomingMatches');
 
     if (cachedMatches) {
@@ -104,4 +97,10 @@ export class SnookerApi {
 
     return this.upcomingMatchesCache;
   }
+
+  getEventById(id: number): Observable<SnookerEvent> { //gets event details by id
+    return this.http.get<SnookerEvent>(`${this.apiUrl}/events/${id}`);
+  } 
+
 }
+

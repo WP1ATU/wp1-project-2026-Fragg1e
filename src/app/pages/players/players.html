@@ -7,47 +7,60 @@
   [(ngModel)]="searchText"
 >
 
-<p *ngIf="loading">Loading players...</p>
-<p *ngIf="error" class="text-danger">{{ error }}</p>
+@if (loading) {
+  <p>Loading players...</p>
+}
 
-<table class="table table-striped" *ngIf="filteredPlayers.length > 0">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Nationality</th>
-      <th>
-      <button class="btn btn-link p-0" (click)="sortPlayers('titles')">
-        Ranking Titles
-      </button>
-    </th>
-    <th>
-      <button class="btn btn-link p-0" (click)="sortPlayers('maximums')">
-        Maximum Breaks
-      </button>
-    </th>
-          <th>Profile</th>
+@if (error) {
+  <p class="text-danger">{{ error }}</p>
+}
+
+@if (filteredPlayers.length > 0) {
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Nationality</th>
+        <th>
+          <button class="btn btn-link p-0 text-black text-decoration-none" 
+                  [class.active-sort]="sortColumn === 'titles'"
+                  (click)="sortPlayers('titles')">
+            Ranking Titles
+          </button>
+        </th>
+        <th>
+          <button class="btn btn-link p-0 text-black text-decoration-none" 
+              [class.active-sort]="sortColumn === 'maximums'"
+              (click)="sortPlayers('maximums')">
+            Maximum Breaks
+          </button>
+        </th>
+        <th>Profile</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (player of filteredPlayers; track player.ID) {
+        <tr>
+          <td>{{ player.FirstName }} {{ player.LastName }}</td>
+          <td>{{ player.Nationality }}</td>
+          <td>{{ player.NumRankingTitles }}</td>
+          <td>{{ player.NumMaximums }}</td>
+          <td>
+            <a class="btn btn-sm btn-secondary" [routerLink]="['/players', player.ID]">
+              View
+            </a>
+          </td>
         </tr>
-  </thead>
+      }
+    </tbody>
+  </table>
+}
 
-  <tbody>
-    <tr *ngFor="let player of filteredPlayers">
-      <td>{{ player.FirstName }} {{ player.LastName }}</td>
-      <td>{{ player.Nationality }}</td>
-      <td>{{ player.NumRankingTitles }}</td>
-      <td>{{ player.NumMaximums }}</td>
-      <td>
-        <a class="btn btn-sm btn-secondary" [routerLink]="['/players', player.ID]">
-          View
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+@if (!loading && players.length > 0 && filteredPlayers.length === 0) {
+  <p>No players match your search.</p>
+}
 
-<p *ngIf="!loading && players.length > 0 && filteredPlayers.length === 0">
-  No players match your search.
-</p>
-
-<p *ngIf="!loading && players.length === 0">
-  No players loaded yet.
-</p>
+@if (!loading && players.length === 0) {
+  <p>No players loaded yet.</p>
+}

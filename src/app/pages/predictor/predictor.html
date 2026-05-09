@@ -1,15 +1,22 @@
 <h2>Prediction Builder</h2>
 
-<p *ngIf="error" class="text-danger">{{ error }}</p>
-<p *ngIf="feedback" class="text-success">{{ feedback }}</p>
+@if (error) {
+  <p class="text-danger">{{ error }}</p>
+}
+
+@if (feedback) {
+  <p class="text-success">{{ feedback }}</p>
+}
 
 <div class="mb-3">
   <label class="form-label">Player 1</label>
   <select title="Player 1" class="form-select" [(ngModel)]="selectedPlayerOneId">
     <option [ngValue]="0">Select player 1</option>
-    <option *ngFor="let player of players" [ngValue]="player.PlayerID">
-      Rank {{ player.Position }} - {{ player.PlayerName }}
-    </option>
+    @for (player of players; track player.PlayerID) {
+      <option [ngValue]="player.PlayerID">
+        Rank {{ player.Position }} - {{ player.PlayerName }}
+      </option>
+    }
   </select>
 </div>
 
@@ -17,43 +24,47 @@
   <label class="form-label">Player 2</label>
   <select title="Player 2" class="form-select" [(ngModel)]="selectedPlayerTwoId">
     <option [ngValue]="0">Select player 2</option>
-    <option *ngFor="let player of players" [ngValue]="player.PlayerID">
-      Rank {{ player.Position }} - {{ player.PlayerName }}
-    </option>
+    @for (player of players; track player.PlayerID) {
+      <option [ngValue]="player.PlayerID">
+        Rank {{ player.Position }} - {{ player.PlayerName }}
+      </option>
+    }
   </select>
 </div>
 
-<div class="mb-3" *ngIf="selectedPlayerOneId && selectedPlayerTwoId">
-  <label class="form-label">Predicted Winner</label>
+@if (selectedPlayerOneId && selectedPlayerTwoId) {
+  <div class="mb-3">
+    <label class="form-label">Predicted Winner</label>
 
-  <div class="form-check">
-    <input 
-      title="player1-check-input"
-      class="form-check-input"
-      type="radio"
-      name="predictedWinner"
-      [value]="players.find(player => player.PlayerID === selectedPlayerOneId)?.PlayerName"
-      [(ngModel)]="predictedWinnerName"
-    >
-    <label class="form-check-label">
-      {{ players.find(player => player.PlayerID === selectedPlayerOneId)?.PlayerName }}
-    </label>
-  </div>
+    <div class="form-check">
+      <input
+        title="player1-check-input"
+        class="form-check-input"
+        type="radio"
+        name="predictedWinner"
+        [value]="selectedPlayerOneName"
+        [(ngModel)]="predictedWinnerName"
+      >
+      <label class="form-check-label">
+        {{ selectedPlayerOneName }}
+      </label>
+    </div>
 
-  <div class="form-check">
-    <input
-      title="player2-check-input"
-      class="form-check-input"
-      type="radio"
-      name="predictedWinner"
-      [value]="players.find(player => player.PlayerID === selectedPlayerTwoId)?.PlayerName"
-      [(ngModel)]="predictedWinnerName"
-    >
-    <label class="form-check-label">
-      {{ players.find(player => player.PlayerID === selectedPlayerTwoId)?.PlayerName }}
-    </label>
+    <div class="form-check">
+      <input
+        title="player2-check-input"
+        class="form-check-input"
+        type="radio"
+        name="predictedWinner"
+        [value]="selectedPlayerTwoName"
+        [(ngModel)]="predictedWinnerName"
+      >
+      <label class="form-check-label">
+        {{ selectedPlayerTwoName }}
+      </label>
+    </div>
   </div>
-</div>
+}
 
 <div class="mb-3">
   <label class="form-label">Reason</label>
@@ -66,9 +77,4 @@
 </div>
 
 <button class="btn btn-success" (click)="savePrediction()">Save Prediction</button>
-
-<br><br>
-
 <button class="btn btn-secondary" (click)="resetPrediction()">Reset</button>
-
-

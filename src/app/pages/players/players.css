@@ -1,0 +1,10 @@
+.sort-button {
+  color: #102a43;
+  font-weight: 700;
+  
+}
+
+.sort-button:hover,
+.active-sort {
+  text-decoration: underline !important;
+}

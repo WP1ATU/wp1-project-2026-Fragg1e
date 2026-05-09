@@ -1,31 +1,45 @@
 <h2>Saved Predictions</h2>
 
-<p *ngIf="loading">Loading saved predictions...</p>
-<p *ngIf="error" class="text-danger">{{ error }}</p>
+@if (loading) {
+  <p>Loading saved predictions...</p>
+}
 
-<table class="table table-striped" *ngIf="predictions.length > 0">
-  <thead>
-    <tr>
-      <th>Player 1</th>
-      <th>Player 2</th>
-      <th>Predicted Winner</th>
-      <th>Reason</th>
-      <th>Saved At</th>
-      <th> </th>
-    </tr>
-  </thead>
+@if (error) {
+  <p class="text-danger">{{ error }}</p>
+}
 
-  <tbody>
-    <tr *ngFor="let prediction of predictions">
-      <td>{{ prediction.playerOneName }}</td>
-      <td>{{ prediction.playerTwoName }}</td>
-      <td>{{ prediction.predictedWinnerName }}</td>
-      <td>{{ prediction.reason }}</td>
-      <td>{{ prediction.createdAt | date:'medium' }}</td>
-      <td><button class="btn btn-sm btn-danger" (click)="deletePrediction(prediction._id)">Delete</button></td></tr>
-  </tbody>
-</table>
+@if (predictions.length > 0) {
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Player 1</th>
+        <th>Player 2</th>
+        <th>Predicted Winner</th>
+        <th>Reason</th>
+        <th>Saved At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
 
-<p *ngIf="!loading && predictions.length === 0">
-  No saved predictions yet.
-</p>
+    <tbody>
+      @for (prediction of predictions; track prediction._id) {
+        <tr>
+          <td>{{ prediction.playerOneName }}</td>
+          <td>{{ prediction.playerTwoName }}</td>
+          <td>{{ prediction.predictedWinnerName }}</td>
+          <td>{{ prediction.reason }}</td>
+          <td>{{ prediction.createdAt | date:'medium' }}</td>
+          <td>
+            <button class="btn btn-sm btn-danger" (click)="deletePrediction(prediction._id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
+@if (!loading && predictions.length === 0) {
+  <p>No saved predictions yet.</p>
+}

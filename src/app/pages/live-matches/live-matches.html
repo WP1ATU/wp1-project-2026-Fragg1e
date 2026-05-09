@@ -1,65 +1,92 @@
-<h2>Live Matches</h2>
+<section class="page-panel">
+  <h2>Live Matches</h2>
 
-<p *ngIf="loadingLive">Loading live matches...</p>
-<p *ngIf="liveError" class="text-danger">{{ liveError }}</p>
+  @if (loadingLive) {
+    <p>Loading live matches...</p>
+  }
 
-<table class="table table-striped" *ngIf="liveMatches.length > 0">
-  <thead>
-    <tr>
-      <th>Round</th>
-      <th>Match Number</th>
-      <th>Player 1 ID</th>
-      <th>Player 2 ID</th>
-      <th>Score</th>
-    </tr>
-  </thead>
+  @if (liveError) {
+    <p class="text-danger">{{ liveError }}</p>
+  }
 
-  <tbody>
-    <tr *ngFor="let match of liveMatches">
-      <td>{{ match.Round }}</td>
-      <td>{{ match.Number }}</td>
-      <td>{{ match.Player1ID }}</td>
-      <td>{{ match.Player2ID }}</td>
-      <td>{{ match.Score1 }} - {{ match.Score2 }}</td>
-    </tr>
-  </tbody>
-</table>
+  @if (liveMatches.length > 0) {
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Round</th>
+          <th>Match Number</th>
+          <th>Player 1</th>
+          <th>Player 2</th>
+          <th>Score</th>
+        </tr>
+      </thead>
 
-<p *ngIf="!loadingLive && liveMatches.length === 0">
-  No live matches at the moment.
-</p>
+      <tbody>
+        @for (match of liveMatches; track match.ID) {
+          <tr>
+            <td>{{ match.Round }}</td>
+            <td>{{ match.Number }}</td>
+            <td>{{ match.Player1Name }}</td>
+            <td>{{ match.Player2Name }}</td>
+            <td>{{ match.Score1 }} - {{ match.Score2 }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
 
-<hr>
+  @if (!loadingLive && liveMatches.length === 0) {
+    <p>No live matches at the moment.</p>
+  }
+</section>
 
-<h2>Upcoming Matches</h2>
+<section class="page-panel">
+  <h2>Upcoming Matches</h2>
 
-<p *ngIf="loadingUpcoming">Loading upcoming matches...</p>
-<p *ngIf="upcomingError" class="text-danger">{{ upcomingError }}</p>
+  @if (loadingUpcoming) {
+    <p>Loading upcoming matches...</p>
+  }
 
-<table class="table table-striped" *ngIf="upcomingMatches.length > 0">
-  <thead>
-    <tr>
-      <th>Round</th>
-      <th>Match Number</th>
-      <th>Player 1 ID</th>
-      <th>Player 2 ID</th>
-      <th>Score</th>
-      <th>Scheduled Date</th>
-    </tr>
-  </thead>
+  @if (upcomingError) {
+    <p class="text-danger">{{ upcomingError }}</p>
+  }
 
-  <tbody>
-    <tr *ngFor="let match of upcomingMatches">
-      <td>{{ match.Round }}</td>
-      <td>{{ match.Number }}</td>
-      <td>{{ match.Player1ID }}</td>
-      <td>{{ match.Player2ID }}</td>
-      <td>{{ match.Score1 }} - {{ match.Score2 }}</td>
-      <td>{{ match.ScheduledDate | date:'medium' }}</td>
-    </tr>
-  </tbody>
-</table>
+  @if (upcomingMatches.length > 0) {
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Event ID</th>
+          <th>Round</th>
+          <th>Player 1 ID</th>
+          <th>Player 2 ID</th>
+          <th>Scheduled Date</th>
+          <th></th>
+        </tr>
+      </thead>
 
-<p *ngIf="!loadingUpcoming && upcomingMatches.length === 0">
-  No upcoming matches found.
-</p>
+      <tbody>
+        @for (match of upcomingMatches; track match.ID) {
+          <tr>
+            <td>{{ match.EventID }}</td>
+            <td>{{ match.Round }}</td>
+            <td>{{ match.Player1ID }}</td>
+            <td>{{ match.Player2ID }}</td>
+            <td>{{ match.ScheduledDate | date: 'medium' }}</td>
+            <td>
+              <a
+                class="btn btn-primary text-white text-decoration-none"
+                [routerLink]="['/events', match.EventID]"
+              >
+                View Details
+              </a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (!loadingUpcoming && upcomingMatches.length === 0) {
+    <p>No upcoming matches found.</p>
+  }
+</section>
