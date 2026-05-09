@@ -1,4 +1,5 @@
 body {
+  margin: 0;
   background-color: #f4f6f8;
   color: #1f2933;
   font-family: Arial, Helvetica, sans-serif;
@@ -22,17 +23,57 @@ h3 {
   color: #243b53;
 }
 
+.page-panel {
+  background-color: white;
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  padding: 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+}
+
+.page-intro {
+  max-width: 760px;
+  color: #52606d;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #d9e2ec;
+  margin: 36px 0;
+}
+
 table {
   background-color: white;
 }
 
 .table {
   border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
 }
 
 .table thead th {
   background-color: #e6edf3;
   color: #102a43;
+  border-bottom: 1px solid #d9e2ec;
+}
+
+.table th,
+.table td {
+  padding: 14px 16px;
+  vertical-align: middle;
+}
+
+.table tbody tr:hover {
+  background-color: #eef4f8;
+}
+
+.table a {
+  font-weight: 600;
 }
 
 input,
@@ -42,8 +83,11 @@ textarea {
 }
 
 .form-control,
-.form-select {
+.form-select,
+textarea {
+  background-color: white;
   border: 1px solid #bcccdc;
+  border-radius: 8px;
 }
 
 .form-control:focus,
@@ -53,6 +97,7 @@ textarea {
 }
 
 .btn {
+  border-radius: 8px;
   font-weight: 600;
 }
 
@@ -86,61 +131,9 @@ textarea {
   border-color: #9a3412;
 }
 
-.text-success {
-  font-weight: 600;
-}
-
+.text-success,
 .text-danger {
   font-weight: 600;
-}
-
-.table {
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.table th,
-.table td {
-  padding: 14px 16px;
-  vertical-align: middle;
-}
-
-.table tbody tr:hover {
-  background-color: #eef4f8;
-}
-
-.table a {
-  font-weight: 600;
-}
-
-.page-panel {
-  background-color: white;
-  border: 1px solid #d9e2ec;
-  padding: 28px;
-  margin-bottom: 24px;
-}
-
-.page-intro {
-  max-width: 760px;
-  color: #52606d;
-  font-size: 17px;
-  line-height: 1.6;
-}
-
-hr {
-  border: 0;
-  border-top: 1px solid #d9e2ec;
-  margin: 36px 0;
-}
-
-.table {
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
-}
-
-.form-control,
-.form-select,
-textarea {
-  background-color: white;
 }
 
 a {
@@ -151,3 +144,17 @@ a:hover {
   color: #1e40af;
 }
 
+@media (max-width: 700px) {
+  main {
+    padding: 20px 16px;
+  }
+
+  .page-panel {
+    padding: 20px;
+  }
+
+  .table th,
+  .table td {
+    padding: 12px;
+  }
+}

@@ -8,20 +8,25 @@
   margin: 0 0 12px 0;
   font-size: 28px;
   font-weight: 700;
+  text-align: center;
 }
 
 .app-header nav {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  justify-content: center;
 }
 
 .app-header a {
   color: white;
   text-decoration: none;
   font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 999px;
 }
 
 .app-header a:hover {
-  text-decoration: underline;
+  background-color: rgba(255, 255, 255, 0.14);
+  text-decoration: none;
 }

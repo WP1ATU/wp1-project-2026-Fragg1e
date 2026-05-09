@@ -10,29 +10,29 @@
   }
 
   @if (liveMatches.length > 0) {
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Round</th>
-          <th>Match Number</th>
-          <th>Player 1</th>
-          <th>Player 2</th>
-          <th>Score</th>
-        </tr>
-      </thead>
+    <div class="match-grid">
+      @for (match of liveMatches; track match.ID) {
+        <article class="match-card">
+          <div class="match-card-header">
+            <div>
+              <h3>Match {{ match.Number }}</h3>
+              <p>Round {{ match.Round }}</p>
+            </div>
 
-      <tbody>
-        @for (match of liveMatches; track match.ID) {
-          <tr>
-            <td>{{ match.Round }}</td>
-            <td>{{ match.Number }}</td>
-            <td>{{ match.Player1Name }}</td>
-            <td>{{ match.Player2Name }}</td>
-            <td>{{ match.Score1 }} - {{ match.Score2 }}</td>
-          </tr>
-        }
-      </tbody>
-    </table>
+            <span class="live-badge">Live</span>
+          </div>
+
+          <div class="match-players">
+            <p>{{ match.Player1Name || 'Player ' + match.Player1ID }}</p>
+            <p>{{ match.Player2Name || 'Player ' + match.Player2ID }}</p>
+          </div>
+
+          <p class="match-score">
+            {{ match.Score1 }} - {{ match.Score2 }}
+          </p>
+        </article>
+      }
+    </div>
   }
 
   @if (!loadingLive && liveMatches.length === 0) {
@@ -52,38 +52,34 @@
   }
 
   @if (upcomingMatches.length > 0) {
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Event ID</th>
-          <th>Round</th>
-          <th>Player 1 ID</th>
-          <th>Player 2 ID</th>
-          <th>Scheduled Date</th>
-          <th></th>
-        </tr>
-      </thead>
+    <div class="match-grid">
+      @for (match of upcomingMatches; track match.ID) {
+        <article class="match-card">
+          <div class="match-card-header">
+            <div>
+              <h3>Event {{ match.EventID }}</h3>
+              <p>Round {{ match.Round }}</p>
+            </div>
+          </div>
 
-      <tbody>
-        @for (match of upcomingMatches; track match.ID) {
-          <tr>
-            <td>{{ match.EventID }}</td>
-            <td>{{ match.Round }}</td>
-            <td>{{ match.Player1ID }}</td>
-            <td>{{ match.Player2ID }}</td>
-            <td>{{ match.ScheduledDate | date: 'medium' }}</td>
-            <td>
-              <a
-                class="btn btn-primary text-white text-decoration-none"
-                [routerLink]="['/events', match.EventID]"
-              >
-                View Details
-              </a>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
+          <div class="match-players">
+            <p>Player {{ match.Player1ID }}</p>
+            <p>Player {{ match.Player2ID }}</p>
+          </div>
+
+          <p class="match-date">
+            {{ match.ScheduledDate | date: 'medium' }}
+          </p>
+
+          <a
+            class="btn btn-primary text-white text-decoration-none"
+            [routerLink]="['/events', match.EventID]"
+          >
+            View Details
+          </a>
+        </article>
+      }
+    </div>
   }
 
   @if (!loadingUpcoming && upcomingMatches.length === 0) {
