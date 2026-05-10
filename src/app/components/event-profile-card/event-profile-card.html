@@ -1,0 +1,22 @@
+<section class="event-card">
+  <h3>{{ event.Name }}</h3>
+
+  <div class="detail-grid">
+    <p><strong>Event ID:</strong> {{ event.ID }}</p>
+    <p><strong>Season:</strong> {{ event.Season || 'Unknown' }}</p>
+    <p><strong>Start Date:</strong> {{ event.StartDate | date: 'mediumDate' }}</p>
+    <p><strong>End Date:</strong> {{ event.EndDate | date: 'mediumDate' }}</p>
+    <p><strong>Sponsor:</strong> {{ event.Sponsor || 'Unknown' }}</p>
+    <p><strong>Venue:</strong> {{ event.Venue || 'Unknown' }}</p>
+    <p><strong>City:</strong> {{ event.City || 'Unknown' }}</p>
+    <p><strong>Country:</strong> {{ event.Country || 'Unknown' }}</p>
+    <p><strong>Discipline:</strong> {{ event.Discipline || 'Unknown' }}</p>
+    <p><strong>Type:</strong> {{ event.Type || 'Unknown' }}</p>
+  </div>
+
+  @if (event.Url) {
+    <a class="btn btn-secondary" [href]="event.Url" target="_blank">
+      Event Website
+    </a>
+  }
+</section>

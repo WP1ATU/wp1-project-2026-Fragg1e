@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { EventProfileCard } from '../../components/event-profile-card/event-profile-card';
 import { SnookerEvent } from '../../models/event';
 import { SnookerApi } from '../../services/snooker-api';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-profile',
   templateUrl: './event-profile.html',
   styleUrl: './event-profile.css',
-  imports: [DatePipe]
+  imports: [EventProfileCard]
 })
 export class EventProfile {
   event?: SnookerEvent;

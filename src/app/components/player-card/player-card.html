@@ -1,0 +1,22 @@
+<article class="player-card">
+  <div>
+    <h3>{{ player.FirstName }} {{ player.LastName }}</h3>
+    <p class="player-nationality">{{ player.Nationality || 'Unknown nationality' }}</p>
+  </div>
+
+  <div class="player-stats">
+    <p>
+      <span>Ranking Titles</span>
+      <strong>{{ player.NumRankingTitles || 0 }}</strong>
+    </p>
+
+    <p>
+      <span>Maximum Breaks</span>
+      <strong>{{ player.NumMaximums || 0 }}</strong>
+    </p>
+  </div>
+
+  <a class="btn btn-secondary" [routerLink]="['/players', player.ID]">
+    View Profile
+  </a>
+</article>

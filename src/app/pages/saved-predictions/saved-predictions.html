@@ -9,35 +9,14 @@
 }
 
 @if (predictions.length > 0) {
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Player 1</th>
-        <th>Player 2</th>
-        <th>Predicted Winner</th>
-        <th>Reason</th>
-        <th>Saved At</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      @for (prediction of predictions; track prediction._id) {
-        <tr>
-          <td>{{ prediction.playerOneName }}</td>
-          <td>{{ prediction.playerTwoName }}</td>
-          <td>{{ prediction.predictedWinnerName }}</td>
-          <td>{{ prediction.reason }}</td>
-          <td>{{ prediction.createdAt | date:'medium' }}</td>
-          <td>
-            <button class="btn btn-sm btn-danger" (click)="deletePrediction(prediction._id)">
-              Delete
-            </button>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+  <div class="prediction-grid">
+    @for (prediction of predictions; track prediction._id) {
+      <app-prediction-card
+        [prediction]="prediction"
+        (deletePrediction)="deletePrediction($event)">
+      </app-prediction-card>
+    }
+  </div>
 }
 
 @if (!loading && predictions.length === 0) {

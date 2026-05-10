@@ -1,0 +1,36 @@
+<article class="match-card">
+  <div class="match-card-header">
+    <div>
+      <h3>Event {{ match.EventID }}</h3>
+      <p>Round {{ match.Round }}</p>
+    </div>
+
+    @if (type === 'live') {
+      <span class="live-badge">Live</span>
+    }
+  </div>
+
+  <div class="match-players">
+    <p>{{ match.Player1Name || 'Player ' + match.Player1ID }}</p>
+    <p>{{ match.Player2Name || 'Player ' + match.Player2ID }}</p>
+  </div>
+
+  @if (type === 'live') {
+    <p class="match-score">
+      {{ match.Score1 }} - {{ match.Score2 }}
+    </p>
+  }
+
+  @if (type === 'upcoming') {
+    <p class="match-date">
+      {{ match.ScheduledDate | date: 'medium' }}
+    </p>
+
+    <a
+      class="btn btn-primary text-white text-decoration-none"
+      [routerLink]="['/events', match.EventID]"
+    >
+      View Details
+    </a>
+  }
+</article>

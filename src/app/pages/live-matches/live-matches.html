@@ -10,30 +10,12 @@
   }
 
   @if (liveMatches.length > 0) {
-    <div class="match-grid">
-      @for (match of liveMatches; track match.ID) {
-        <article class="match-card">
-          <div class="match-card-header">
-            <div>
-              <h3>Match {{ match.Number }}</h3>
-              <p>Round {{ match.Round }}</p>
-            </div>
-
-            <span class="live-badge">Live</span>
-          </div>
-
-          <div class="match-players">
-            <p>{{ match.Player1Name || 'Player ' + match.Player1ID }}</p>
-            <p>{{ match.Player2Name || 'Player ' + match.Player2ID }}</p>
-          </div>
-
-          <p class="match-score">
-            {{ match.Score1 }} - {{ match.Score2 }}
-          </p>
-        </article>
-      }
-    </div>
-  }
+  <div class="match-grid">
+    @for (match of liveMatches; track match.ID) {
+      <app-match-card [match]="match" type="live"></app-match-card>
+    }
+  </div>
+}
 
   @if (!loadingLive && liveMatches.length === 0) {
     <p>No live matches at the moment.</p>
@@ -52,35 +34,12 @@
   }
 
   @if (upcomingMatches.length > 0) {
-    <div class="match-grid">
-      @for (match of upcomingMatches; track match.ID) {
-        <article class="match-card">
-          <div class="match-card-header">
-            <div>
-              <h3>Event {{ match.EventID }}</h3>
-              <p>Round {{ match.Round }}</p>
-            </div>
-          </div>
-
-          <div class="match-players">
-            <p>Player {{ match.Player1ID }}</p>
-            <p>Player {{ match.Player2ID }}</p>
-          </div>
-
-          <p class="match-date">
-            {{ match.ScheduledDate | date: 'medium' }}
-          </p>
-
-          <a
-            class="btn btn-primary text-white text-decoration-none"
-            [routerLink]="['/events', match.EventID]"
-          >
-            View Details
-          </a>
-        </article>
-      }
-    </div>
-  }
+  <div class="match-grid">
+    @for (match of upcomingMatches; track match.ID) {
+      <app-match-card [match]="match" type="upcoming"></app-match-card>
+    }
+  </div>
+}
 
   @if (!loadingUpcoming && upcomingMatches.length === 0) {
     <p>No upcoming matches found.</p>

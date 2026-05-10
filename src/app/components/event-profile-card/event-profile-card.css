@@ -1,0 +1,33 @@
+.event-card {
+  background-color: white;
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  padding: 32px;
+  width: 100%;
+  min-height: 360px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+}
+
+.event-card h3 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-size: 32px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  gap: 18px 48px;
+  margin-bottom: 24px;
+}
+
+.detail-grid p {
+  margin-bottom: 0;
+  font-size: 17px;
+}
+
+@media (max-width: 800px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}

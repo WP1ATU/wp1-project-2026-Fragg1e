@@ -1,0 +1,50 @@
+.prediction-card {
+  background-color: white;
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+}
+
+.prediction-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.prediction-card h3 {
+  margin: 0;
+  color: #102a43;
+  font-size: 20px;
+}
+
+.prediction-header p {
+  margin: 6px 0 0;
+  color: #52606d;
+}
+
+.winner {
+  background-color: #f4f6f8;
+  border-radius: 8px;
+  margin: 18px 0;
+  padding: 12px;
+}
+
+.winner span {
+  display: block;
+  color: #52606d;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.winner strong {
+  color: #102a43;
+  font-size: 18px;
+}
+
+.reason {
+  margin: 0;
+  color: #1f2933;
+  line-height: 1.5;
+}

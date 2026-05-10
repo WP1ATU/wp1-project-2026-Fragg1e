@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { PredictionCard } from '../../components/prediction-card/prediction-card';
 import { SavedPrediction } from '../../models/saved-prediction';
 import { SavedPredictionService } from '../../services/saved-prediction';
 
 @Component({
   selector: 'app-saved-predictions',
-  imports: [DatePipe],
+  imports: [PredictionCard],
   templateUrl: './saved-predictions.html',
   styleUrl: './saved-predictions.css'
 })

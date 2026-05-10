@@ -1,0 +1,19 @@
+<article class="prediction-card">
+  <div class="prediction-header">
+    <div>
+      <h3>{{ prediction.playerOneName }} vs {{ prediction.playerTwoName }}</h3>
+      <p>{{ prediction.createdAt | date:'medium' }}</p>
+    </div>
+
+    <button class="btn btn-sm btn-danger" (click)="deletePrediction.emit(prediction._id)">
+      Delete
+    </button>
+  </div>
+
+  <p class="winner">
+    <span>Predicted Winner</span>
+    <strong>{{ prediction.predictedWinnerName }}</strong>
+  </p>
+
+  <p class="reason">{{ prediction.reason }}</p>
+</article>

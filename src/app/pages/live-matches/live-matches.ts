@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { SnookerApi } from '../../services/snooker-api';
 import { Match } from '../../models/match';
-import { RouterLink } from '@angular/router';
+import { MatchCard } from '../../components/match-card/match-card';
 
 
 @Component({
   selector: 'app-live-matches',
-  imports: [DatePipe, RouterLink],
+  imports: [MatchCard],
   templateUrl: './live-matches.html',
   styleUrl: './live-matches.css'
 })

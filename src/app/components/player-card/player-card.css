@@ -1,0 +1,52 @@
+.player-card {
+  background-color: white;
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: 0.2s ease;
+}
+
+.player-card:hover {
+  border-color: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.player-card h3 {
+  margin: 0;
+  color: #102a43;
+  font-size: 20px;
+}
+
+.player-nationality {
+  margin: 6px 0 0;
+  color: #52606d;
+}
+
+.player-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.player-stats p {
+  background-color: #f4f6f8;
+  border-radius: 8px;
+  margin: 0;
+  padding: 12px;
+}
+
+.player-stats span {
+  display: block;
+  color: #52606d;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.player-stats strong {
+  color: #102a43;
+  font-size: 20px;
+}
