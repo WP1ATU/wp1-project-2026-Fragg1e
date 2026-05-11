@@ -8,7 +8,7 @@ import { SavedPrediction } from '../models/saved-prediction';
   providedIn: 'root'
 })
 export class SavedPredictionService {
-  private apiUrl = 'http://18.201.114.135:3000/api/predictions';
+  private apiUrl = 'http://52.212.9.16:3000/api/predictions';
 
   constructor(private http: HttpClient) {}
 

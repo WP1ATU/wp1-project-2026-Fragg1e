@@ -10,7 +10,7 @@ import { SnookerEvent } from '../models/event';
   providedIn: 'root'
 })
 export class SnookerApi {
-  private apiUrl = 'http://18.201.114.135:3000/api';
+  private apiUrl = 'http://52.212.9.16:3000/api';
   private playersCache?: Observable<Player[]>;
   private upcomingMatchesCache?: Observable<Match[]>;
 
